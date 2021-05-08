@@ -18,7 +18,7 @@ def index():
     return render_template('index.html', test='테스트')
 
 
-# 아티클 추가 API
+# 아티클 추가 API/
 @app.route('/memo', methods=['POST'])
 def save_memo():
     form = request.form
@@ -55,6 +55,16 @@ def save_memo():
     return jsonify(
         {'result': 'success', 'msg': '저장했습니다.'}
     )
+
+@app.route('/memo', methods=['GET'])
+def list_memo():
+    memos = list(db.articles.find({}, {'_id': False}))
+    result = {
+        'result': 'success',
+        'articles': memos,
+    }
+
+    return jsonify(result)
 
 
 # app.py 파일을 직접 실행시킬 때 동작시킴. 이 코드가 가장 아랫부분이어야 함!
